@@ -1,0 +1,39 @@
+.wish-div {
+    margin-top: 10px;
+    border-style: solid;
+    border-color: black;
+}
+
+.heading-div {
+    display: flex;
+    justify-content: center;
+}
+
+.vote-div {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding: 10px;
+}
+
+.grant-div {
+    display: flex;
+    align-items: center;
+    width: 50px;
+    justify-content: space-evenly;
+}
+
+.deny-div {
+    display: flex;
+    align-items: center;
+    width: 50px;
+    justify-content: space-evenly;
+}
+
+.fa-wand-magic-sparkles:hover {
+    transform: scale(1.2);
+}
+
+.fa-ban:hover {
+    transform: scale(1.2);
+}
