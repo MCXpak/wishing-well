@@ -1,7 +1,16 @@
+body {
+    background-color: #377771;
+}
+
+#heading-div {
+    display: flex;
+    justify-content: center;
+}
+
 .wish-div {
     margin-top: 10px;
-    border-style: solid;
-    border-color: black;
+    background-color: #4CE0B3;
+    box-shadow: 3px 3px;
 }
 
 .heading-div {
@@ -37,3 +46,23 @@
 .fa-ban:hover {
     transform: scale(1.2);
 }
+
+#create-wish {
+    display: flex;
+    justify-content: center;
+}
+
+#wish-form {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: #4CE0A9;
+    box-shadow: 3px 3px;
+    padding: 10px;
+}
+
+#wish-input {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+

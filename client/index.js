@@ -41,6 +41,7 @@ const createWishElement = (wish) => {
     const grantIcon = document.createElement('i')
     grantIcon.className = "fa-solid fa-wand-magic-sparkles"
     grantIcon.id = `grantWish${wish.id}`
+    grantIcon.addEventListener('click', e => voteCallback(e, 'grant'))
     grantDiv.appendChild(grantIcon)
     
     const grant = document.createElement('p')
@@ -57,6 +58,7 @@ const createWishElement = (wish) => {
     const denyIcon = document.createElement('i')
     denyIcon.className = "fa-solid fa-ban"
     denyIcon.id = `denyWish${wish.id}`
+    denyIcon.addEventListener('click', e => voteCallback(e, 'deny'))
     denyDiv.appendChild(denyIcon)
 
     const deny = document.createElement('p')
@@ -81,17 +83,6 @@ const createWishElements = (wishes) => {
     for(const wish of wishes){
         createWishElement(wish)
     }
-
-    //Create Event Listeners
-    eventListeners();
-
-}
-
-const eventListeners= () => {
-
-    grantEventListener();
-    denyEventListener();
-    
 }
 
 const voteCallback = async (e, type) => {
@@ -120,32 +111,31 @@ const voteCallback = async (e, type) => {
     }
 }
 
-const grantEventListener = () => {
-
-    const grantIcons = document.getElementsByClassName('fa-wand-magic-sparkles')
-
-    for(const grant of grantIcons){
-        grant.addEventListener('click', e => voteCallback(e, 'grant'))
+const addWish = async (e) => {
+    const wish = {id: 0, wish: e.target.wish.value , grant: 0, deny: 0}
+    
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(wish)
     }
-}
 
-const denyEventListener = () => {
-    const denyIcons = document.getElementsByClassName('fa-ban')
+    const res = await fetch("http://localhost:3000/create", options);
 
-    for(const deny of denyIcons){
-        deny.addEventListener('click', e => voteCallback(e, 'deny'))
+    if (res.status == 201) {
+        alert("Wish successfully!");
+        window.location.reload();
     }
-}
-
-
-displayWishes();
-
-const addWish = (e) => {
-
 }
 
 const form = document.querySelector('#wish-form')
 form.addEventListener('submit', addWish)
+
+displayWishes();
+
+
 
 
 

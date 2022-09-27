@@ -42,6 +42,13 @@ app.post("/vote", (req, res) => {
     
 })
 
+app.post("/create", (req, res) => {
+    const wish = req.body
+    wish.id = wishes.length
+    wishes.push(wish)
+    res.status(201).send("Wish added!")
+})
+
 
 
 
