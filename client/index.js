@@ -45,7 +45,6 @@ const createWishElement = (wish) => {
     const grantIcon = document.createElement('i')
     grantIcon.className = "fa-solid fa-wand-magic-sparkles"
     grantIcon.id = `grantWish${wish.id}`
-    console.log(wish.id)
     grantIcon.addEventListener('click', e => voteCallback(e, wish.id, 'grant'))
     grantDiv.appendChild(grantIcon)
     
@@ -65,7 +64,6 @@ const createWishElement = (wish) => {
     denyIcon.className = "fa-solid fa-ban"
     denyIcon.id = `denyWish${wish.id}`
     denyIcon.addEventListener('click', e => voteCallback(e ,wish.id, 'deny'))
-    console.log(wish.id)
     denyDiv.appendChild(denyIcon)
 
     const deny = document.createElement('p')
@@ -77,6 +75,7 @@ const createWishElement = (wish) => {
 
     //Append vote div to wish div
     wishDiv.appendChild(voteDiv)
+    console.log(wishDiv)
 
     //Append wish div to container div
     const container = document.querySelector('#container')
@@ -86,6 +85,7 @@ const createWishElement = (wish) => {
 const createWishElements = (wishes) => {
     //Create wish div
     for(const wish of wishes){
+        console.log(wish)
         createWishElement(wish)
     }
 }
@@ -113,7 +113,7 @@ const voteCallback = async (e, id, type) => {
 
     if (res.status == 201){
         console.log("It worked")
-        //window.location.reload()
+        window.location.reload()
     }
 }
 
@@ -144,7 +144,7 @@ const wishDisplayOrder = async (e) => {
     const wishes = await res.json()
     console.log(wishes)
     order = e.target.id
-    //window.location.reload();
+    window.location.reload();
     // if (res.status == 200) {
     //     //window.location.reload();
     //     console.log("Wish order updated")

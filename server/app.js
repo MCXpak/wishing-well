@@ -31,12 +31,20 @@ app.post("/vote", (req, res) => {
     let id = req.body.id
     id = Number(id)
     const type = req.body.type
+    //Get correct wish with id
+    let wish;
+    for(const w of wishes){
+        console.log(w["id"])
+        if(w["id"] == id) {
+            wish = w
+        }
+    }
+
     if (type == 'grant'){
-        wishes[id].grant++
-        console.log(wishes)
+        wish.grant++
         res.status(201).send("Wish grant increased")
     } else if (type == 'deny'){
-        wishes[id].deny++
+        wish.deny++
         res.status(201).send("Wish deny increased")
     } else {
         res.status(400).send("Incorrect type")
@@ -53,6 +61,12 @@ app.post("/create", (req, res) => {
 
 app.get("/ascending", (req, res) => {
     wishes.sort((a,b) => {return b.grant - a.grant})
+    console.log(wishes)
+    res.send(wishes)
+})
+
+app.get("/descending", (req, res) => {
+    wishes.sort((a,b) => {return a.grant - b.grant})
     console.log(wishes)
     res.send(wishes)
 })
