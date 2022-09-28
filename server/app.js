@@ -17,14 +17,20 @@ app.use(express.json())
 // Add middleware to log routes
 app.use(logRoute);
 
+let order = 'descending'
+
 // Set up the server routes
 app.get("/", (req, res) => {
     res.send("Welcome to the Wishing Well");
 });
 
 app.get("/wishes", (req, res) => {
-    console.log(wishes)
-    res.send(wishes)
+    body = {
+        wishes: wishes,
+        order: order 
+    }
+    console.log(order)
+    res.send(body)
 })
 
 app.post("/vote", (req, res) => {
@@ -61,12 +67,14 @@ app.post("/create", (req, res) => {
 
 app.get("/ascending", (req, res) => {
     wishes.sort((a,b) => {return b.grant - a.grant})
+    order = 'ascending'
     console.log(wishes)
     res.send(wishes)
 })
 
 app.get("/descending", (req, res) => {
     wishes.sort((a,b) => {return a.grant - b.grant})
+    order = 'descending'
     console.log(wishes)
     res.send(wishes)
 })
