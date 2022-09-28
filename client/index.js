@@ -1,5 +1,3 @@
-let order = "ascending"
-
 const getWishData = async () => {
     let res = await fetch("http://localhost:3000/wishes")
 
@@ -139,11 +137,10 @@ const addWish = async (e) => {
 const wishDisplayOrder = async (e) => {
 
     console.log(e.target.id)
+    order = e.target.id //To set radio button state when page reloads
     const res = await fetch(`http://localhost:3000/${String(e.target.id)}`)
 
     const wishes = await res.json()
-    console.log(wishes)
-    order = e.target.id
     window.location.reload();
     // if (res.status == 200) {
     //     //window.location.reload();
@@ -160,6 +157,22 @@ const createForms = () => {
 
     ascendingRadio.addEventListener('change', wishDisplayOrder)
     descendingRadio.addEventListener('change', wishDisplayOrder)
+}
+
+const orderRadioChecker = async () => {
+
+    //Get order from new 'order' route from app
+    let order; // fetch from localhost/order
+
+    const ascendingRadio = document.querySelector('#ascending')
+    const descendingRadio = document.querySelector('#descending')
+
+    if(order == 'ascending') {
+        ascendingRadio.checked = true
+    } else if (order == 'descending') {
+        descendingRadio.checked = true
+    }
+
 }
 
 displayPage();
