@@ -23,15 +23,17 @@ app.get("/", (req, res) => {
 });
 
 app.get("/wishes", (req, res) => {
+    console.log(wishes)
     res.send(wishes)
 })
 
 app.post("/vote", (req, res) => {
-    const id = req.body.id
+    let id = req.body.id
+    id = Number(id)
     const type = req.body.type
-
     if (type == 'grant'){
         wishes[id].grant++
+        console.log(wishes)
         res.status(201).send("Wish grant increased")
     } else if (type == 'deny'){
         wishes[id].deny++
@@ -49,10 +51,10 @@ app.post("/create", (req, res) => {
     res.status(201).send("Wish added!")
 })
 
-
-
-
-
-
+app.get("/ascending", (req, res) => {
+    wishes.sort((a,b) => {return b.grant - a.grant})
+    console.log(wishes)
+    res.send(wishes)
+})
 
 module.exports = app;

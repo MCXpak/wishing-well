@@ -1,3 +1,5 @@
+let order = "ascending"
+
 const getWishData = async () => {
     let res = await fetch("http://localhost:3000/wishes")
 
@@ -6,13 +8,15 @@ const getWishData = async () => {
     return wishes
 }
 
-const displayWishes = async () => {
+const displayPage = async () => {
     //Get wishes
     const wishes = await getWishData();
 
     console.log(wishes)
 
     createWishElements(wishes);
+
+    createForms();
 
 }
 
@@ -41,11 +45,13 @@ const createWishElement = (wish) => {
     const grantIcon = document.createElement('i')
     grantIcon.className = "fa-solid fa-wand-magic-sparkles"
     grantIcon.id = `grantWish${wish.id}`
-    grantIcon.addEventListener('click', e => voteCallback(e, 'grant'))
+    console.log(wish.id)
+    grantIcon.addEventListener('click', e => voteCallback(e, wish.id, 'grant'))
     grantDiv.appendChild(grantIcon)
     
     const grant = document.createElement('p')
     grant.textContent = wish.grant
+    grant.setAttribute('for', `grantWish${wish.id}`) 
     grantDiv.appendChild(grant)
 
     voteDiv.appendChild(grantDiv)
@@ -58,11 +64,13 @@ const createWishElement = (wish) => {
     const denyIcon = document.createElement('i')
     denyIcon.className = "fa-solid fa-ban"
     denyIcon.id = `denyWish${wish.id}`
-    denyIcon.addEventListener('click', e => voteCallback(e, 'deny'))
+    denyIcon.addEventListener('click', e => voteCallback(e ,wish.id, 'deny'))
+    console.log(wish.id)
     denyDiv.appendChild(denyIcon)
 
     const deny = document.createElement('p')
     deny.textContent = wish.deny
+    deny.setAttribute('for', `denyWish${wish.id}`)
     denyDiv.appendChild(deny)
 
     voteDiv.appendChild(denyDiv)
@@ -76,19 +84,17 @@ const createWishElement = (wish) => {
 }
 
 const createWishElements = (wishes) => {
-    //Wish list for sorting
-    const wishList = [];
-
     //Create wish div
     for(const wish of wishes){
         createWishElement(wish)
     }
 }
 
-const voteCallback = async (e, type) => {
+const voteCallback = async (e, id, type) => {
 
     //Grab wish id
-    const id = e.target.parentNode.parentNode.parentNode.id
+    console.log(id)
+    console.log(e.target.id)
     
     const data = {
         id: id,
@@ -107,7 +113,7 @@ const voteCallback = async (e, type) => {
 
     if (res.status == 201){
         console.log("It worked")
-        window.location.reload()
+        //window.location.reload()
     }
 }
 
@@ -130,10 +136,33 @@ const addWish = async (e) => {
     }
 }
 
-const form = document.querySelector('#wish-form')
-form.addEventListener('submit', addWish)
+const wishDisplayOrder = async (e) => {
 
-displayWishes();
+    console.log(e.target.id)
+    const res = await fetch(`http://localhost:3000/${String(e.target.id)}`)
+
+    const wishes = await res.json()
+    console.log(wishes)
+    order = e.target.id
+    //window.location.reload();
+    // if (res.status == 200) {
+    //     //window.location.reload();
+    //     console.log("Wish order updated")
+    // }
+}
+
+const createForms = () => {
+    const createWishForm = document.querySelector('#wish-form')
+    createWishForm.addEventListener('submit', addWish)
+
+    const ascendingRadio = document.querySelector('#ascending')
+    const descendingRadio = document.querySelector('#descending')
+
+    ascendingRadio.addEventListener('change', wishDisplayOrder)
+    descendingRadio.addEventListener('change', wishDisplayOrder)
+}
+
+displayPage();
 
 
 
