@@ -1,5 +1,6 @@
 body {
     background-color: #377771;
+    font-family: 'Roboto', sans-serif;
 }
 
 #heading-div {
@@ -69,6 +70,14 @@ body {
 #display-order-div {
     margin-left: 40px;
     display: flex;
+    align-items: center;
+}
+
+#top-10-div {
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
 }
 

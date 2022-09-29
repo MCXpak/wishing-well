@@ -17,7 +17,7 @@ app.use(express.json())
 // Add middleware to log routes
 app.use(logRoute);
 
-let order = 'descending'
+let order = 'ascending'
 
 // Set up the server routes
 app.get("/", (req, res) => {
@@ -29,18 +29,18 @@ app.get("/wishes", (req, res) => {
         wishes: wishes,
         order: order 
     }
-    console.log(order)
     res.send(body)
 })
 
 app.post("/vote", (req, res) => {
+    //Get id
     let id = req.body.id
     id = Number(id)
+    //Get type
     const type = req.body.type
     //Get correct wish with id
     let wish;
     for(const w of wishes){
-        console.log(w["id"])
         if(w["id"] == id) {
             wish = w
         }
@@ -68,14 +68,12 @@ app.post("/create", (req, res) => {
 app.get("/ascending", (req, res) => {
     wishes.sort((a,b) => {return b.grant - a.grant})
     order = 'ascending'
-    console.log(wishes)
     res.send(wishes)
 })
 
 app.get("/descending", (req, res) => {
     wishes.sort((a,b) => {return a.grant - b.grant})
     order = 'descending'
-    console.log(wishes)
     res.send(wishes)
 })
 

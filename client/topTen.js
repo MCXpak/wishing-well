@@ -1,5 +1,3 @@
-let order;
-
 const getWishData = async () => {
     let res = await fetch("http://localhost:3000/wishes")
 
@@ -12,20 +10,6 @@ const getWishData = async () => {
     return data.wishes
 }
 
-const displayPage = async () => {
-    //Get wishes
-    const wishes = await getWishData();
-
-    console.log(wishes)
-
-    createWishElements(wishes);
-
-    createForms();
-
-    orderRadioChecker();
-
-
-}
 
 const createWishElement = (wish) => {
     const wishDiv = document.createElement('div')
@@ -125,74 +109,17 @@ const voteCallback = async (e, id, type) => {
     }
 }
 
-const addWish = async (e) => {
-    const wish = {id: 0, wish: e.target.wish.value , grant: 0, deny: 0}
-    
-    const options = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(wish)
-    }
-
-    const res = await fetch("http://localhost:3000/create", options);
-
-    if (res.status == 201) {
-        alert("Wish successfully!");
-        window.location.reload();
-    }
+const top10WishData = async () => {
+    const wishes = await getWishData();
+    return top10Wishes = wishes.slice(0,10)   
 }
 
-const wishDisplayOrder = async (e) => {
+const displayPage = async () => {
 
-    console.log(e.target.id)
-    //order = e.target.id //To set radio button state when page reloads
-    const res = await fetch(`http://localhost:3000/${String(e.target.id)}`)
+    const top10wishes = await top10WishData();
 
-    const wishes = await res.json()
-    window.location.reload();
-    // if (res.status == 200) {
-    //     //window.location.reload();
-    //     console.log("Wish order updated")
-    // }
-}
+    createWishElements(top10wishes);
 
-const createForms = () => {
-    const createWishForm = document.querySelector('#wish-form')
-    createWishForm.addEventListener('submit', addWish)
-
-    const ascendingRadio = document.querySelector('#ascending')
-    const descendingRadio = document.querySelector('#descending')
-
-    ascendingRadio.addEventListener('input', wishDisplayOrder)
-    descendingRadio.addEventListener('input', wishDisplayOrder)
-}
-
-const orderRadioChecker = async () => {
-
-    //Get order from new 'order' route from app
-
-    const ascendingRadio = document.querySelector('#ascending')
-    const descendingRadio = document.querySelector('#descending')
-
-    if(order == 'ascending') {
-        ascendingRadio.checked = true
-        console.log("Ascending radio should be checked")
-    } else if (order == 'descending') {
-        descendingRadio.checked = true
-        console.log("Descending radio should be checked")
-    }
-
-}
-
-const createTop10ButtonEventListener = () => {
-    const button = document.getElementById('top-10-button')
-    button.addEventListener('click', () => {
-
-    })
 }
 
 displayPage();
-
-module.exports = index
